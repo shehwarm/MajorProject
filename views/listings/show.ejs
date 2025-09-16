@@ -14,7 +14,13 @@
         <li><img src="<%= listing.image %>" alt="Listing Image" width="200"/></li>
         <li><%= listing.location %></li>
         <li><%= listing.country %></li>
-
     </ul>
+    <br>
+    <a href="/listings/<%=listing._id %>/edit">Edit this Listing</a>
+    <br>
+    <br>
+    <form method="POST" action="/listing/<%=listing._id%>?method=DELETE">
+        <button>Delete thiss learning</button>
+    </form>
 </body>
 </html>
