@@ -12,7 +12,8 @@ const listingSchema = new Schema({
     },
     image: {
         type: String, 
-        required: true 
+        default: "https://unsplash.com/photos/rocky-coastline-with-waves-crashing-at-sunset-bTfySKA_WrI",
+        set : (v) => v === "" ? "https://unsplash.com/photos/rocky-coastline-with-waves-crashing-at-sunset-bTfySKA_WrI" : v,
     },
     price: { 
         type: Number, 
@@ -29,4 +30,3 @@ const listingSchema = new Schema({
 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;
-
