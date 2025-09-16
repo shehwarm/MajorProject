@@ -11,9 +11,11 @@ const listingSchema = new Schema({
         required: true 
     },
     image: {
-        type: String, 
-        default: "https://unsplash.com/photos/rocky-coastline-with-waves-crashing-at-sunset-bTfySKA_WrI",
-        set : (v) => v === "" ? "https://unsplash.com/photos/rocky-coastline-with-waves-crashing-at-sunset-bTfySKA_WrI" : v,
+         filename: { type: String, default: "listingimage" },
+         url: { 
+           type: String, 
+            default: "https://unsplash.com/photos/rocky-coastline-with-waves-crashing-at-sunset-bTfySKA_WrI" 
+              }
     },
     price: { 
         type: Number, 
