@@ -1,13 +1,39 @@
 <% layout("/layouts/boilerplate") %>
 <body>
+    <div class="row">
+        <div class="col-8 offset-2">
     <h3>New Listing</h3>
     <form method ="POST" action = "/listings">
-        <input name="title" type="text" placeholder="Title" /><br><br>
-        <textarea name="description" type="text" placeholder="Description"></textarea><br><br>
-        <input name="price" type="number" placeholder="Price" /><br><br>
-        <input name="image" type="text" placeholder="Image URL" /><br><br>
-        <input name="location" type="text" placeholder="Location" /><br><br>
-        <input name="country" type="text" placeholder="country" /><br><br>
-        <button>Create Listing</button>
+        <div class="mb-3">
+             <label for="title" class="form-label">Title</label>
+             <input name="title" type="text" placeholder="Title" class="form-control" /><br><br>
+        </div>
+        <div class="mb-3">
+             <label for="description" class="form-label">Description</label>
+            <textarea name="description" type="text" class="form-control"></textarea><br><br>
+        </div>
+        <div class="row">
+               <div class="mb-3 col-md-4">
+                 <label for="price" class="form-label">Price</label>
+                 <input name="price" type="number" placeholder="Price" class="form-control"/><br><br>
+               </div>
+               <div class="mb-3 col-md-8">
+                 <label for="country" class="form-label">Country</label>
+                 <input name="country" type="text" placeholder="country" class="form-control"/><br><br>
+                </div>
+        </div>
+     
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input name="image" type="text" placeholder="Image URL" class="form-control"/><br><br>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+             <input name="location" type="text" placeholder="Location" class="form-control"/><br><br>
+        </div>        
+    
+        <button class="btn btn-dark add-btn">Create Listing</button>
     </form>
 </body>
+</div>
+</div>
