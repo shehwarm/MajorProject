@@ -1,28 +1,28 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
-const Listing = require('./models/listing.js');
-const path = require('path');
-const methodOverride = require('method-override');
+const mongoose = require("mongoose");
+const Listing = require("./models/listing.js");
+const path = require("path");
+const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 
 // Connect to MongoDB
 
-const mongoURL = 'mongodb://localhost:27017/wanderlust';
+const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 
 main()
 .then(() => {console.log("MongoDB connection established");})
 .catch(err => console.log(err));
 
 async function main(){
-    await mongoose.connect(mongoURL);
+    await mongoose.connect(MONGO_URL);
 }
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
-app.engine('ejs',ejsMate);
+app.use(methodOverride("_method"));
+app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 app.get("/", (req, res) => {
@@ -48,10 +48,14 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 //Create route
-app.post("/listings", async (req, res) => {
-    const newListing = new Listing(req.body);
-    await newListing.save();
-    res.redirect(`/listings/${newListing._id}`);
+app.post("/listings", async (req, res, next) => {
+    try{
+        const newListing = new Listing(req.body.listings);
+        await newListing.save();
+        res.redirect("/listings");
+    } catch(err){
+        next(err);
+    }
 });
 
 //Edit route
@@ -64,7 +68,7 @@ app.get("/listings/:id/edit", async (req, res) => {
 //Update route
 app.put("/listings/:id", async (req, res) => {
     const { id } = req.params;
-    await Listing.findByIdAndUpdate(id, req.body, { runValidators: true, new: true });
+    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     res.redirect(`/listings/${id}`);
 });
 
@@ -72,25 +76,16 @@ app.put("/listings/:id", async (req, res) => {
 app.delete("/listings/:id", async (req, res)=>{
     const { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
+    console.log(deletedListing);
     res.redirect("/listings");
 });
 
-/*app.get("/testListing", async (req, res) => {
-    let sampleListing = new Listing({
-        title: "My Villa",
-        description: "By the Beach.",
-        price: 1200,
-        location: "Calangute, Goa",
-        country: "India",
-    });
-    await sampleListing.save();
-    console.log("Sample listing saved to database");
-    res.send("Sample listing created and saved to database.");
+app.use((err, req, res, next) =>{
+     res.send("somehing went wrong");
 });
-*/
+
 
 // Start the server
-
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
