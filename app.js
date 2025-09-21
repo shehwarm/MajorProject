@@ -7,7 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-
+const {listingSchema} = require("./schema.js");
 
 // Connect to MongoDB
 
@@ -52,19 +52,10 @@ app.get("/listings/:id", wrapAsync (async (req, res) => {
 
 //Create route
 app.post("/listings", wrapAsync ( async(req, res, next) => {
-    if( !req.body.listing) {
-        throw new ExpressError(400, "send valid data for listing");
-    }
+       let result = listingSchema.validate(req.body);
+        console.log(result);
         const newListing = new Listing(req.body.listings);
-        if( !req.body.title) {
-        throw new ExpressError(400, "Title is missing");
-            }
-        if( !req.body.description) {
-           throw new ExpressError(400, "Description is missing");
-           }
-        if( !req.body.listing) {
-           throw new ExpressError(400, "send valid data for listing");
-           }
+       
         await newListing.save();
         res.redirect("/listings");
 })
