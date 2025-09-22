@@ -4,7 +4,7 @@
     <div class="row row-cols-1 row-cols-lg-3 g-4">
     <% for(let listing of allListings) { %>
 
-    <div class="card h-100">
+    <div class="card h-100"  >
       <img
         src="<%= listing.image.url %>"
         srcset="<%= listing.image.url %>?w=400 400w, <%= listing.image.url %>?w=800 800w, <%= listing.image.url %>?w=1200 1200w"
@@ -15,7 +15,6 @@
       >
       <div class="card-body p-2">
         <h5 class="card-title"><%= listing.title %></h5>
-        <p class="card-text line-clamp-2"><%= listing.description %></p>
         <p class="mb-1"><span class="price">&#8377;<%= listing.price %></span> <span class="text-muted">/day</span></p>
         <p class="text-muted small mb-2"><%= listing.location %>, <%= listing.country %></p>
         <a href="/listings/<%= listing._id %>" class="btn btn-outline-primary btn-sm">View</a>
