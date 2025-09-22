@@ -1,6 +1,8 @@
 <% layout("layouts/boilerplate.ejs") %>
+
 <h3 class="mb-3"><%= listing.title %></h3>
- <div class="card border-0">
+
+ <div class="card border-0 ">
   <img 
     src="<%= listing.image && listing.image.url ? listing.image.url : listing.image %>" 
     srcset="<%= (listing.image && listing.image.url ? listing.image.url : listing.image) %>?w=800 800w, <%= (listing.image && listing.image.url ? listing.image.url : listing.image) %>?w=1200 1200w, <%= (listing.image && listing.image.url ? listing.image.url : listing.image) %>?w=1600 1600w"
@@ -23,17 +25,25 @@
 <hr>
 <div class="col-8 offset-0">
       <h4>Leave a review</h4>
-        <form action="/listings/<%= listing.id %>/reviews" method="POST">
+        <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
           <div class="mb-3 mt-3">
             <label for="rating" class="form-label">Rating</label>
             <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" >
           </div>
           <div class="mb-3 mt-3">
             <label for="comment" class="form-label">Comments</label>
-            <textarea name="review[comment]" id="comment" cols="38" rows="5" class="form-control"></textarea>
+            <textarea name="review[comment]" id="comment" cols="38" rows="5" class="form-control" required></textarea>
+            <div class="invalid-feedback"> Please submit feedback</div>
           </div>
           <div class="mb-3 mt-3">
            <button class="btn btn-outline-dark">Submit</button>
           </div>
         </form>
+        <h4>All reviews</h4>
+        <ul>
+          <% for(review of listing.reviews) { %>
+            <li><%= review.comment %>, <%= review.rating %>stars</li>
+           <% } %>
+        </ul>
    </div>
+   
