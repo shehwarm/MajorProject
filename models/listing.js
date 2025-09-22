@@ -1,34 +1,34 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+const defaultImage = "https://unsplash.com/photos/golden-mountain-peaks-at-sunset-with-dramatic-clouds-IyhdFcaRYqE";
 const listingSchema = new Schema({
-    title: { 
+    title:{
         type: String, 
-        required: true 
+        required: true
     },
-    description: { 
-        type: String, 
-        required: true 
-    },
+    description: String,
     image: {
-         filename: { type: String, default: "listingimage" },
-         url: { 
-           type: String, 
-            default: "https://unsplash.com/photos/rocky-coastline-with-waves-crashing-at-sunset-bTfySKA_WrI" 
-              }
+        url: {
+            type: String,
+            default: defaultImage,
+            set: (v) => v === "" ? defaultImage : v,
+        },
+        filename: {
+            type: String,
+            default: "listingimage"
+        }
     },
-    price: { 
-        type: Number, 
-        required: true 
-    },
-    location: { 
-        type: String, 
-        required: true 
-    },
-    country: {
-        type: String
-    },
-    });
-
+    price: Number,
+    location: String,
+    country: String,
+    reviews : [
+         {
+            type: Schema.Types.ObjectId,
+            ref : "Review"
+         }
+    ]
+});
+ 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;
+    
