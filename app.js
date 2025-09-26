@@ -1,13 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
 const path = require("path");
-const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-const { listingSchema, reviewSchema } = require("./schema.js");
-const Review = require("./models/review.js");
+const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
+const session = require("express-session");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
@@ -28,12 +27,22 @@ async function main() {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
-const methodOverride = require("method-override");
-const ejsMate = require("ejs-mate");
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-
 app.engine("ejs", ejsMate);
+
+const sessionOptions = {
+  secret :"mysupersecretcode", 
+  resave : false,
+  saveUninitialized : true,
+  cookie : {
+     expires : Date.now() + 7 * 24 * 60 * 1000,
+     maxAge : 7 * 24 * 60 * 1000,
+     httpOnly : true,
+  }
+};
+
+app.use(session(sessionOptions));
 
 app.get("/", (req, res) => {
   res.send("Hi, I am root");
