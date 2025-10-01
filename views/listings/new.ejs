@@ -1,5 +1,8 @@
 <% layout("layouts/boilerplate.ejs") %>
-<h3 class="mb-3">Create a New Listing</h3>
+
+<div class ="row mt-3">
+<div class="col-8 offset-2">
+<h3>Create a New Listing</h3>
 <form method="POST" action="/listings" class="row g-3 needs-validation" novalidate>
   <div class="col-12">
     <label class="form-label">Title</label>
@@ -27,6 +30,9 @@
   </div>
   <div class="col-12">
     <button class="btn btn-primary" type="submit">Add</button>
+  </div>
+
+  </div>
   </div>
   
 </form>
