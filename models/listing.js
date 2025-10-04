@@ -1,11 +1,13 @@
+// models/listing.js
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Review = require("./review.js");
+const Review = require("./review");   // 👈 this must point to models/review.js
 
 const defaultImage = "https://unsplash.com/photos/golden-mountain-peaks-at-sunset-with-dramatic-clouds-IyhdFcaRYqE";
+
 const listingSchema = new Schema({
-    title:{
-        type: String, 
+    title: {
+        type: String,
         required: true
     },
     description: String,
@@ -23,23 +25,24 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     country: String,
-    reviews : [
-         {
+    reviews: [
+        {
             type: Schema.Types.ObjectId,
-            ref : "Review"
-         }
+            ref: "Review"
+        }
     ],
-    owner : {
-        type : Schema.Types.ObjectId,
-        ref : "User",
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     }
 });
 
-listingSchema.post("findOneAndDelete", async(listing)=>{
-    if(listing) {
-  await Review.deleteMany({_id :{$in: listing.reviews }});
-}
+// Cascade delete reviews when a listing is deleted
+listingSchema.post("findOneAndDelete", async (listing) => {
+    if (listing) {
+        await Review.deleteMany({ _id: { $in: listing.reviews } });
+    }
 });
-const Listing = mongoose.model("Listing", listingSchema);
-module.exports = Listing;
-    
+
+module.exports = mongoose.model("Listing", listingSchema);
