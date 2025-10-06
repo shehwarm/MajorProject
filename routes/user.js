@@ -7,11 +7,11 @@ const { saveRedirectUrl } = require("../middleware");
 // Import controllers
 const userController = require("../controllers/users");
 
-// 🟢 SIGNUP ROUTES
+//  SIGNUP ROUTES
 router.get("/signup", userController.signupForm);
 router.post("/signup", wrapAsync(userController.signup));
 
-// 🟢 LOGIN ROUTES
+//  LOGIN ROUTES
 router.get("/login", userController.loginForm);
 router.post(
   "/login",
@@ -23,7 +23,8 @@ router.post(
   userController.login
 );
 
-// 🟢 LOGOUT ROUTE
+//  LOGOUT ROUTE
 router.get("/logout", userController.logout);
 
 module.exports = router;
+ 
