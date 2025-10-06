@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const { isLoggedIn, validateListing } = require("../middleware.js");
-const ListingController = require("../Controllers/listing.js");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
+const ListingController = require("../controllers/listings.js");
 
 // Index Route
 router.get("/", wrapAsync(ListingController.index));
@@ -19,12 +19,12 @@ router.get("/:id", wrapAsync(ListingController.show));
 router.post("/", isLoggedIn, validateListing, wrapAsync(ListingController.create));
 
 // Edit Route
-router.get("/:id/edit", isLoggedIn, wrapAsync(ListingController.edit));
+router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(ListingController.edit));
 
 // Update Route
-router.put("/:id", isLoggedIn, wrapAsync(ListingController.update));
+router.put("/:id", isLoggedIn, isOwner, validateListing, wrapAsync(ListingController.update));
 
 // Delete Route
-router.delete("/:id", isLoggedIn, wrapAsync(ListingController.delete));
+router.delete("/:id", isLoggedIn, isOwner, wrapAsync(ListingController.delete));
 
 module.exports = router;
