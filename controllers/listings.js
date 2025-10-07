@@ -58,14 +58,14 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-
-  if (req.file) {
-    listing.image = {
-      url: req.file.path,
-      filename: req.file.filename,
-    };
-    await listing.save();
-  }
+      
+      if(typeof req.file !== "undefined"){
+      let url = req.file.path;
+      let filename = req.file.filename;
+      let listingImage = { url, filename };
+      listing.image = listingImage;
+      await listing.save();
+      }
 
   req.flash("success", "Listing updated!");
   res.redirect(`/listings/${listing._id}`);
