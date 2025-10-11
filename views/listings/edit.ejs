@@ -9,6 +9,12 @@
     <label class="form-label">Description</label>
     <textarea name="listing[description]" class="form-control" rows="3"><%= listing.description %></textarea>
   </div>
+   
+  <div class="mb-3">
+    Orignal listing image <br>
+    <img src="<%= orignalImageUrl %>" />
+  </div>
+
   <div class="col-12 col-md-6">
     <label class="form-label">Upload New Image</label>
     <input name="listing[image]" type="file" class="form-control" />
