@@ -21,7 +21,6 @@ module.exports.createListing = async (req, res) => {
     limit: 1,
     }) 
     .send();
-    console.log(response);
     res.send("done!");
 
     const newListing = new Listing(req.body.listing);
@@ -34,7 +33,10 @@ module.exports.createListing = async (req, res) => {
     };
   }
 
-  await newListing.save();
+  newListing.geometry = response.body.features[0].geometry;
+
+  let savedListing = await newListing.save();
+  console.log(savedListing);
   req.flash("success", "New listing created!");
   res.redirect(`/listings/${newListing._id}`);
 };
